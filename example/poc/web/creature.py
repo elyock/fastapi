@@ -1,6 +1,9 @@
 import os
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response
+import plotly.express as px
+from collections import Counter
 from model.creature import Creature
+from service.creature import get_all
 if os.getenv("CRYPTID_UNIT_TEST"):
     from fake import creature as service
 else:
@@ -9,9 +12,32 @@ from error import Missing, Duplicate
 
 router = APIRouter(prefix = "/creature")
 
+@router.get("/plot")
+def plot() -> Response:
+    creatures = get_all()
+    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    counts = Counter(creature.name[0] for creature in creatures)   
+    y = { letter: counts.get(letter, 0) for letter in letters }
+    fig = px.histogram(
+        x=list(letters),
+        y=y,
+        labels={'x': 'Initial', 'y': 'Initial'},
+        title='Creature Names,'
+    )
+    fig_bytes = fig.to_image(format="png")
+    return Response(content=fig_bytes, media_type="image/png")
+
+@router.get("")
 @router.get("/")
 def get_all() -> list[Creature]:
     return service.get_all()
+
+@router.get("/test")
+def test():
+    df = px.data.iris()
+    fig = px.scatter(df, x="sepal_width", y="sepal_length", color="species")
+    fig_bytes = fig.to_image(format="png")
+    return Response(content=fig_bytes, media_type="image/png")
 
 @router.get("/{name}")
 def get_one(name) -> Creature:

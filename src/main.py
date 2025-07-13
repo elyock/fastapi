@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from web import creature, explorer, game, user
+from web import creature, explorer, user, game
 
 app = FastAPI()
 

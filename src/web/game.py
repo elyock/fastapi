@@ -3,7 +3,7 @@ from pathlib import Path
 from fastapi import APIRouter, Body, Request
 from fastapi.templating import Jinja2Templates
 
-from service import game as service
+import service.game as service
 
 router = APIRouter(prefix = "/game")
 

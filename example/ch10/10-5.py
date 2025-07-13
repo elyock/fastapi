@@ -1,4 +1,4 @@
-from .init import curs
+from init import curs
 from model.explorer import Explorer
 
 curs.execute("""create table if not exists explorer(

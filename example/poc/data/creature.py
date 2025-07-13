@@ -1,4 +1,4 @@
-from .init import curs
+from data.init import curs
 from model.creature import Creature
 
 curs.execute("""create table if not exists creature(

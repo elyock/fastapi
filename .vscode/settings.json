@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "./example/poc"
+    ],
+    "python.analysis.autoFormatStrings": true,
+    "python.analysis.autoSearchPaths": false
+}
